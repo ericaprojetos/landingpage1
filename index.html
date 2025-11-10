@@ -1,0 +1,521 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Landing Page - Maternidade Leve</title>
+    
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts - Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <style>
+        /* Define a fonte Inter como padrão */
+        body {
+            font-family: 'Inter', sans-serif;
+            overflow-x: hidden;
+        }
+
+        /* ---------------------------------------------------- */
+        /* ANIMAÇÃO DE ROLAGEM (MAIS APARENTE)                */
+        /* ---------------------------------------------------- */
+
+        .fade-in-on-scroll {
+            opacity: 0;
+            /* Animação vem de mais de baixo (50px) e com leve zoom (scale) */
+            transform: translateY(50px) scale(0.98); 
+            /* Duração maior (0.8s) para ficar mais suave */
+            transition: opacity 0.8s ease-out, transform 0.8s ease-out; 
+            will-change: opacity, transform;
+        }
+        .is-visible {
+            opacity: 1;
+            /* Volta ao normal */
+            transform: translateY(0) scale(1); 
+        }
+
+        /* Cores personalizadas para os botões */
+        .btn-rosa {
+            background-color: #ec4899; /* Pink-500 forte */
+            color: white;
+            transition: background-color 0.3s ease;
+        }
+        .btn-rosa:hover {
+            background-color: #db2777; /* Pink-600 mais forte */
+        }
+        
+        .btn-verde {
+            background-color: #10b981; /* Green-500 */
+            color: white;
+            transition: background-color 0.3s ease;
+        }
+        .btn-verde:hover {
+            background-color: #059669; /* Green-600 mais forte */
+        }
+
+        /* Estilização para o <details> do FAQ */
+        details > summary {
+            list-style: none;
+            padding: 1rem;
+            background-color: #fdf2f8;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            color: #831843;
+            transition: background-color 0.2s ease;
+            position: relative;
+        }
+        details > summary::-webkit-details-marker { display: none; }
+        details > summary::after {
+            content: '+';
+            position: absolute;
+            right: 1rem;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 1.5rem;
+            font-weight: 300;
+            line-height: 1;
+        }
+        details[open] > summary::after {
+            content: '−';
+        }
+        details > div {
+            padding: 1.5rem;
+            background: #fff;
+            border-bottom-left-radius: 8px;
+            border-bottom-right-radius: 8px;
+            margin-top: -8px;
+            border-top: 1px solid #fce7f3;
+        }
+
+        /* ---------------------------------------------------- */
+        /* ANIMAÇÕES DE PULSAÇÃO PERSONALIZADAS           */
+        /* ---------------------------------------------------- */
+
+        /* Animação para o Botão ROSA Pulsante */
+        @keyframes pulse-rosa {
+            0%, 100% {
+                transform: scale(1);
+                /* COR ROSA do box-shadow */
+                box-shadow: 0 0 0 0 rgba(236, 72, 153, 0.7); 
+            }
+            50% {
+                transform: scale(1.03);
+                /* COR ROSA transparente */
+                box-shadow: 0 0 0 10px rgba(236, 72, 153, 0); 
+            }
+        }
+        .animate-pulse-rosa {
+            animation: pulse-rosa 2s infinite;
+        }
+
+        /* Animação para o Botão VERDE Pulsante */
+        @keyframes pulse-verde {
+            0%, 100% {
+                transform: scale(1);
+                /* COR VERDE do box-shadow */
+                box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7); 
+            }
+            50% {
+                transform: scale(1.03);
+                /* COR VERDE transparente */
+                box-shadow: 0 0 0 10px rgba(16, 185, 129, 0);
+            }
+        }
+        .animate-pulse-verde {
+            animation: pulse-verde 2s infinite;
+        }
+    </style>
+</head>
+<body class="bg-pink-50">
+
+    <!-- HERO SECTION (Seção Inicial) - Versão só Texto -->
+    <section class="container mx-auto px-6 py-16 lg:py-24">
+        <!-- Layout de 1 coluna centralizada -->
+        <div class="text-center max-w-3xl mx-auto">
+            
+            <!-- Título SEM animação de carregamento (para garantir visibilidade) -->
+            <h1 class="text-4xl lg:text-5xl font-extrabold text-gray-900 mb-6 leading-tight">
+                Cansada da Sobrecarga? Descubra a Maternidade Leve que Você Merece.
+            </h1>
+            
+            <!-- Texto SEM animação de carregamento -->
+            <p class="text-lg text-gray-600 mb-8">
+                Troque a culpa e o cansaço por conexão e paciência. O método passo a passo para mães que querem resgatar a alegria de maternar.
+            </p>
+            
+            <!-- Botão SEM animação de carregamento -->
+            <a href="#checkout-link-placeholder" 
+               class="btn-rosa inline-block font-bold py-4 px-10 rounded-lg text-lg uppercase shadow-lg transform hover:scale-105 animate-pulse-rosa">
+                Quero uma Maternidade Mais Leve
+            </a>
+        </div>
+    </section>
+
+    <!-- TEMPORIZADOR DE ESCASSEZ -->
+    <section class="bg-pink-100 py-12 fade-in-on-scroll">
+        <div class="container mx-auto px-6 text-center">
+            <h2 class="text-2xl font-bold text-pink-700 mb-4 uppercase tracking-wider">
+                Sua oferta especial termina em:
+            </h2>
+            <div id="timer" class="flex justify-center space-x-4 text-gray-900">
+                <div class="bg-white p-4 rounded-lg shadow-md w-24">
+                    <span id="days" class="text-4xl font-bold">00</span>
+                    <span class="block text-sm text-gray-600">Dias</span>
+                </div>
+                <div class="bg-white p-4 rounded-lg shadow-md w-24">
+                    <span id="hours" class="text-4xl font-bold">00</span>
+                    <span class="block text-sm text-gray-600">Horas</span>
+                </div>
+                <div class="bg-white p-4 rounded-lg shadow-md w-24">
+                    <span id="minutes" class="text-4xl font-bold">00</span>
+                    <span class="block text-sm text-gray-600">Minutos</span>
+                </div>
+                <div class="bg-white p-4 rounded-lg shadow-md w-24">
+                    <span id="seconds" class="text-4xl font-bold">00</span>
+                    <span class="block text-sm text-gray-600">Segundos</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SEÇÃO DE DOR (Identificação) -->
+    <section class="py-20 bg-white fade-in-on-scroll">
+        <div class="container mx-auto px-6 max-w-3xl text-center">
+            <h2 class="text-3xl font-bold text-gray-900 mb-6">
+                Ser mãe é incrível, mas ninguém te preparou para isso...
+            </h2>
+            <p class="text-lg text-gray-600 mb-8">
+                Você se identifica com algum desses pontos?
+            </p>
+            <ul class="text-left space-y-4 max-w-lg mx-auto">
+                <li class="flex items-start space-x-3">
+                    <svg class="w-6 h-6 text-pink-500 flex-shrink-0 mt-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                    <span class="text-gray-700">Vive correndo, mas a sensação é que **nunca termina nada**.</span>
+                </li>
+                <li class="flex items-start space-x-3">
+                    <svg class="w-6 h-6 text-pink-500 flex-shrink-0 mt-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                    <span class="text-gray-700">A **culpa** é sua companheira constante? (Se trabalha, culpa. Se fica em casa, culpa).</span>
+                </li>
+                <li class="flex items-start space-x-3">
+                    <svg class="w-6 h-6 text-pink-500 flex-shrink-0 mt-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                    <span class="text-gray-700">Se olha no espelho e se pergunta: **"Onde foi parar aquela mulher que eu era?"**</span>
+                </li>
+                <li class="flex items-start space-x-3">
+                    <svg class="w-6 h-6 text-pink-500 flex-shrink-0 mt-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                    <span class="text-gray-700">A rotina virou um campo de batalha de **birras e negociações** que drenam sua energia.</span>
+                </li>
+            </ul>
+        </div>
+    </section>
+
+    <!-- SEÇÃO DA SOLUÇÃO (Apresentação do Ebook) -->
+    <section class="py-20 bg-pink-50 fade-in-on-scroll">
+        <div class="container mx-auto px-6">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+                <div>
+                    <img src="https://placehold.co/500x700/ffffff/ec4899?text=Capa+do+Ebook" 
+                         alt="Capa do Ebook Maternidade Leve" 
+                         class="rounded-lg shadow-2xl w-full max-w-md mx-auto transform lg:rotate-3">
+                </div>
+                <div class="text-center lg:text-left">
+                    <span class="text-sm font-bold uppercase text-pink-600">A Solução que Você Procurava</span>
+                    <h2 class="text-3xl lg:text-4xl font-bold text-gray-900 mt-2 mb-6">
+                        Apresentando o Ebook: [Nome do Seu Produto]
+                    </h2>
+                    <p class="text-lg text-gray-600 mb-6">
+                        O **[Nome do Produto]** é o guia completo que te entrega o mapa para sair do "modo sobrevivência" e entrar no "modo presença".
+                    </p>
+                    <p class="text-lg text-gray-600 mb-8">
+                        É um material prático, sem enrolação e feito para mães reais, que não têm tempo a perder e querem resultados que duram.
+                    </p>
+                    <!-- BOTÃO ROSA NÃO PULSANTE (Chamada secundária) -->
+                    <a href="#checkout-link-placeholder" 
+                       class="btn-rosa inline-block font-bold py-4 px-10 rounded-lg text-lg uppercase shadow-lg transform hover:scale-105">
+                        Sim, eu preciso desse mapa!
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SEÇÃO BENEFÍCIOS (O que ela ganha) -->
+    <section class="py-20 bg-white fade-in-on-scroll">
+        <div class="container mx-auto px-6">
+            <div class="max-w-3xl mx-auto text-center mb-12">
+                <h2 class="text-3xl lg:text-4xl font-bold text-gray-900 mb-4">O que você vai transformar com este Ebook?</h2>
+                <p class="text-lg text-gray-600">Aqui não tem teoria chata. Aqui tem transformação prática:</p>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto">
+                <div class="bg-pink-50 p-8 rounded-2xl shadow-lg">
+                    <h3 class="text-xl font-bold text-gray-900 mb-3">O Fim da Culpa</h3>
+                    <p class="text-gray-700">A liberdade de ser uma "mãe suficientemente boa". Vamos reprogramar sua mente para focar na conexão, não na perfeição.</p>
+                </div>
+                <div class="bg-pink-50 p-8 rounded-2xl shadow-lg">
+                    <h3 class="text-xl font-bold text-gray-900 mb-3">Conexão Antes da Correção</h3>
+                    <p class="text-gray-700">O segredo da Disciplina Positiva que funciona. Entenda o cérebro do seu filho e aprenda a lidar com birras sem gritar.</p>
+                </div>
+                <div class="bg-pink-50 p-8 rounded-2xl shadow-lg">
+                    <h3 class="text-xl font-bold text-gray-900 mb-3">A Rotina que Liberta</h3>
+                    <p class="text-gray-700">Um método flexível para organizar a casa e as crianças, garantindo que sobre tempo de qualidade (inclusive para você).</p>
+                </div>
+                <div class="bg-pink-50 p-8 rounded-2xl shadow-lg">
+                    <h3 class="text-xl font-bold text-gray-900 mb-3">O Resgate da Mulher</h3>
+                    <p class="text-gray-700">Um plano de autocuidado realista. Como recarregar suas energias em 10 minutos por dia e reencontrar sua identidade.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SEÇÃO PROVA SOCIAL (Depoimentos) -->
+    <section class="py-20 bg-pink-50 fade-in-on-scroll">
+        <div class="container mx-auto px-6">
+            <h2 class="text-3xl lg:text-4xl font-bold text-gray-900 text-center mb-12">
+                Elas saíram do caos para a calma.
+            </h2>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <!-- Depoimento 1 -->
+                <div class="bg-white p-8 rounded-2xl shadow-xl">
+                    <img src="https://placehold.co/100x100/ffe4e6/ec4899?text=M%C3%A3e+1" alt="Foto Mãe 1" class="w-20 h-20 rounded-full mx-auto mb-4 border-4 border-pink-200">
+                    <p class="text-gray-600 text-center mb-4 italic">"Eu vivia no limite do stress. O Ebook mudou a forma como eu falo com meu filho. Hoje, as birras diminuíram 80% e eu me sinto mais conectada."</p>
+                    <p class="text-center font-bold text-gray-900">- Joana S., Mãe do Léo (4 anos)</p>
+                </div>
+                <!-- Depoimento 2 -->
+                <div class="bg-white p-8 rounded-2xl shadow-xl transform md:scale-105">
+                    <img src="https://placehold.co/100x100/ffe4e6/ec4899?text=M%C3%A3e+2" alt="Foto Mãe 2" class="w-20 h-20 rounded-full mx-auto mb-4 border-4 border-pink-200">
+                    <p class="text-gray-600 text-center mb-4 italic">"Eu achava que 'tempo pra mim' era lenda. Aprendi a criar uma rotina que funciona e hoje consigo ler 30 minutos toda noite. Salvou minha sanidade!"</p>
+                    <p class="text-center font-bold text-gray-900">- Carla M., Mãe da Bia (2) e Gui (5)</p>
+                </div>
+                <!-- Depoimento 3 -->
+                <div class="bg-white p-8 rounded-2xl shadow-xl">
+                    <img src="https://placehold.co/100x100/ffe4e6/ec4899?text=M%C3%A3e+3" alt="Foto Mãe 3" class="w-20 h-20 rounded-full mx-auto mb-4 border-4 border-pink-200">
+                    <p class="text-gray-600 text-center mb-4 italic">"Parei de me sentir culpada por trabalhar. Entendi que a qualidade do tempo é o que importa. Obrigada, [Seu Nome], por me mostrar isso."</p>
+                    <p class="text-center font-bold text-gray-900">- Priscila R., Mãe da Sofia (1 ano)</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SEÇÃO SOBRE A AUTORA -->
+    <section class="py-20 bg-white fade-in-on-scroll">
+        <div class="container mx-auto px-6">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+                <div class="text-center">
+                    <img src="https://placehold.co/400x400/ffe4e6/ec4899?text=Sua+Foto+Aqui" 
+                         alt="Foto da Autora"
+                         class="rounded-full shadow-2xl w-full max-w-sm mx-auto border-8 border-pink-100">
+                </div>
+                <div class="text-center lg:text-left">
+                    <h2 class="text-3xl lg:text-4xl font-bold text-gray-900 mb-6">
+                        Quem é [Seu Nome Aqui]?
+                    </h2>
+                    <p class="text-lg text-gray-600 mb-6">
+                        Oi, eu sou a **[Seu Nome]**. Eu sou [Sua Profissão, ex: psicóloga, pedagoga] e especialista em [Sua especialidade].
+                    </p>
+                    <p class="text-lg text-gray-600 mb-6">
+                        Mas, mais importante que meus títulos, **eu sou mãe** do [Nome do(s) filho(s)]. Eu também já estive exatamente onde você está: exausta, culpada e perdida.
+                    </p>
+                    <p class="text-lg text-gray-600">
+                        Eu compilei neste Ebook apenas o que funciona na vida real, sem teorias impossíveis, para ajudar você a se sentir a mãe confiante e feliz que nasceu para ser.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SEÇÃO DE OFERTA (Preço) -->
+    <section class="py-20 bg-pink-50 fade-in-on-scroll">
+        <div class="container mx-auto px-6 max-w-2xl text-center">
+            <div class="bg-white p-10 rounded-2xl shadow-2xl">
+                <h2 class="text-3xl font-bold text-gray-900 mb-4">Transforme sua maternidade hoje.</h2>
+                <p class="text-lg text-gray-600 mb-6">Receba o Ebook Completo + Bônus Exclusivos:</p>
+                <ul class="text-left space-y-2 mb-8 max-w-md mx-auto">
+                    <!-- Bônus -->
+                    <li class="flex items-center space-x-2">
+                        <svg class="w-5 h-5 text-pink-500" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path></svg>
+                        <span>Ebook Principal [Nome do Produto]</span>
+                    </li>
+                    <li class="flex items-center space-x-2">
+                        <svg class="w-5 h-5 text-pink-500" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path></svg>
+                        <span>Bônus 1: Template de Rotina Flexível</span>
+                    </li>
+                    <li class="flex items-center space-x-2">
+                        <svg class="w-5 h-5 text-pink-500" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path></svg>
+                        <span>Bônus 2: Guia de Frases de Conexão</span>
+                    </li>
+                </ul>
+                
+                <!-- PREÇO RISCADO EM VERMELHO -->
+                <p class="text-xl font-medium text-red-500 line-through">De: R$ 197,00</p>
+                
+                <div class="my-4"> <p class="text-3xl font-medium text-gray-800">
+                                                      Por apenas
+                                          </p>
+                                           <p class="text-6xl font-extrabold text-green-500">
+                                                      R$ 9,90
+                                          </p>
+                <p class="text-lg font-bold text-gray-700 mb-8">
+                    (Preço único, acesso vitalício)
+                </p>
+                
+                <!-- BOTÃO VERDE PULSANTE CORRIGIDO -->
+                <a href="#checkout-link-placeholder" 
+               class="btn-verde inline-block font-bold py-5 px-10 rounded-lg text-xl uppercase shadow-lg transform hover:scale-105 animate-pulse-verde">
+                Quero meu ebook agora!
+            </a>
+
+                <div class="mt-8 flex items-center justify-center space-x-3 text-gray-600">
+                    <svg class="w-8 h-8 text-pink-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"></path></svg>
+                    <span>Garantia Incondicional de 7 Dias. Risco ZERO.</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SEÇÃO DE GARANTIA -->
+    <section class="py-20 bg-white fade-in-on-scroll">
+        <div class="container mx-auto px-6 max-w-3xl text-center">
+            <svg class="w-20 h-20 mx-auto text-pink-500 mb-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"></path></svg>
+            <h2 class="text-3xl font-bold text-gray-900 mb-4">Risco ZERO. Sua tranquilidade ou seu dinheiro de volta.</h2>
+            <p class="text-lg text-gray-600">
+                Eu confio tanto no poder transformador deste método que te ofereço uma **Garantia Incondicional de 7 Dias**. Se você entrar, ler o material e sentir que não é para você, basta me enviar um único e-mail. Devolvo 100% do seu investimento, sem perguntas, sem burocracia.
+            </p>
+        </div>
+    </section>
+
+    <!-- SEÇÃO DE FAQ -->
+    <section class="py-20 bg-pink-50 fade-in-on-scroll">
+        <div class="container mx-auto px-6 max-w-3xl">
+            <h2 class="text-3xl lg:text-4xl font-bold text-gray-900 text-center mb-12">
+                Perguntas Frequentes
+            </h2>
+            <div class="space-y-4">
+                <!-- Pergunta 1 -->
+                <details>
+                    <summary>E se eu não tiver tempo de ler o ebook?</summary>
+                    <div>
+                        <p class="text-gray-700">O [Nome do Produto] foi feito para mães ocupadas. O material é direto ao ponto e você pode ler em "pílulas" de 10-15 minutos. Além disso, o acesso é vitalício, então você pode ler no seu ritmo, sem pressão.</p>
+                    </div>
+                </details>
+                <!-- Pergunta 2 -->
+                <details>
+                    <summary>Como vou receber o acesso?</summary>
+                    <div>
+                        <p class="text-gray-700">Imediatamente após a confirmação do pagamento. Você receberá um e-mail da [Plataforma, ex: Hotmart] com o link para baixar seu ebook e bônus.</p>
+                    </div>
+                </details>
+                <!-- Pergunta 3 -->
+                <details>
+                    <summary>Serve para mães de bebês? Ou só de crianças maiores?</summary>
+                    <div>
+                        <p class="text-gray-700">Os princípios da conexão, autocuidado e rotina se aplicam a TODAS as fases. [Adapte essa resposta para o seu nicho]. As ferramentas de birra são mais focadas em crianças de 1 a 6 anos, mas a base serve para a vida.</p>
+                    </div>
+                </details>
+                <!-- Pergunta 4 -->
+                <details>
+                    <summary>O pagamento é seguro?</summary>
+                    <div>
+                        <p class="text-gray-700">Sim, 100% seguro. O pagamento é processado pela [Nome da Plataforma, ex: Kiwify, Hotmart, Eduzz], uma das maiores e mais seguras plataformas de produtos digitais do Brasil.</p>
+                    </div>
+                </details>
+            </div>
+        </div>
+    </section>
+
+    <!-- CHAMADA FINAL -->
+    <section class="py-20 bg-pink-100 fade-in-on-scroll">
+        <div class="container mx-auto px-6 max-w-3xl text-center">
+            <h2 class="text-3xl font-bold text-gray-900 mb-6">
+                Você está a um passo de trocar a sobrecarga pela leveza.
+            </h2>
+            <p class="text-xl text-gray-700 mb-8">
+                Seus filhos não precisam de uma mãe perfeita. Eles precisam de uma mãe feliz.
+                A mudança começa em você.
+            </p>
+            <!-- BOTÃO VERDE PULSANTE (Chamada Final) -->
+            <a href="#checkout-link-placeholder" 
+               class="btn-verde inline-block font-bold py-5 px-10 rounded-lg text-xl uppercase shadow-lg transform hover:scale-105 animate-pulse-verde">
+                Quero começar minha transformação agora!
+            </a>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="py-12 bg-gray-800 text-gray-300">
+        <div class="container mx-auto px-6 text-center">
+            <p>&copy; 2025 [Nome da Sua Marca]. Todos os direitos reservados.</p>
+            <p class="text-sm mt-2">Este produto não garante a obtenção de resultados. Qualquer referência ao desempenho de uma estratégia não deve ser interpretada como uma garantia de resultados.</p>
+        </div>
+    </footer>
+
+
+    <!-- SCRIPTS (Temporizador e Animação de Rolagem) -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+
+                                // --- LÓGICA DO TEMPORIZADOR ---
+                                function startTimer() {
+                                          // Defina a data final da promoção (Ex: 2 dias a partir de agora)
+                                         const targetDate = new Date().getTime() + (40 * 60 * 1000); // 40 minutos
+
+                                         const timerInterval = setInterval(() => {
+                                                    const now = new Date().getTime();
+                                                    const distance = targetDate - now;
+
+                    // Cálculos
+                    const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+                    const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                    const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+                    const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+                    // Atualiza o HTML
+                    document.getElementById('days').innerText = String(days).padStart(2, '0');
+                    document.getElementById('hours').innerText = String(hours).padStart(2, '0');
+                    document.getElementById('minutes').innerText = String(minutes).padStart(2, '0');
+                    document.getElementById('seconds').innerText = String(seconds).padStart(2, '0');
+
+                    // Se o tempo acabar
+                    if (distance < 0) {
+                        clearInterval(timerInterval);
+                        document.getElementById('timer').innerHTML = '<h3 class="text-2xl font-bold text-red-600">Oferta Encerrada!</h3>';
+                    }
+                }, 1000);
+            }
+            
+            startTimer();
+
+
+            // --- LÓGICA DA ANIMAÇÃO DE ROLAGEM (Fade-in) ---
+            const targets = document.querySelectorAll('.fade-in-on-scroll');
+
+            const observerOptions = {
+                root: null, // usa o viewport
+                rootMargin: '0px',
+                threshold: 0.1 // 10% do item precisa estar visível
+            };
+
+            const observerCallback = (entries, observer) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('is-visible');
+                        observer.unobserve(entry.target); // Não precisa observar mais
+                    }
+                });
+            };
+            
+            // Inicia o observer apenas se houver elementos para observar
+            if (targets.length > 0) {
+                const observer = new IntersectionObserver(observerCallback, observerOptions);
+
+                targets.forEach(target => {
+                    observer.observe(target);
+                });
+            }
+        });
+    </script>
+
+</body>
+</html>
